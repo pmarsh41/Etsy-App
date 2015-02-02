@@ -30,9 +30,6 @@
                 members: "https"
             }
 
-
-
-
         }
 
             home: function(){
