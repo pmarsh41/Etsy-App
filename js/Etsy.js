@@ -1,8 +1,9 @@
 ;(function(){
 
-    function EtsyClient(token){
+    function EtsyClient(key){
         this.token = token;
-        this.members = [];
+        this.vendors = [];
+        this.inventoryData = [];
 
         var self = this;
         var EtsyRouter = Backbone.Router.extend({
@@ -11,7 +12,7 @@
                 ":username": "drawUserInfo"
             },
             drawUserInfo: function(username){
-                 self.drawUser(username)
+                 self.drawUser(userId)
             },
             initialize:function(){
                 Backbone.history.start();
@@ -20,22 +21,33 @@
             })
 
             var router = new EtsyRouter();
-            this.listenToEvents();
+
             this.draw();
 
         }
 
         EtsyClient.prototype = {
             URLs: {
-                members: "https"
-            }
+                listings: "https://openapi.etsy.com/v2/listings/active"
+            },
 
-        }
-
-            home: function(){
-                var page = document.querySelector("page");
-                page.innerHTML = '';
-                alert = ("home");
+            access_token: function(){
+                return "?api_key=" + this.key
+            },
+            getData: function() {
+                // Pull inventory data from Etsy
+                return $.getJson("https://openapi.etsy.com/v2/listings/active")
+                .then(function(data) {
+                    return data;
+                })
+            },
+            draw: function() {
+                $.when(
+                    this.getData(),
+                    this.loadTemplate("inventoryTemplate")
+                ).then(function(inventory, html) }
+                console.log(inventory);
+                var inventoryPage = document.querySelector("inventoryPage")
 
             },
 
@@ -76,7 +88,7 @@
             if(this.members.length > 0){
                 x.resolve(this.members);
             } else {
-                var p = $.get(this.URLs.members + this.access_token());
+                var p = $.get //(etsy link());
                 p.then(function(data){
                     x.resolve(data);
                     this.members = data;
