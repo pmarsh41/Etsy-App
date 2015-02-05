@@ -18,10 +18,10 @@ function app(){
         document.querySelector("html").style.opacity = 1;
         // start app?
 
-        $("form").on("submit", function(event){
-            event.preventDefault();
-            window.location.hash = '#/search/'+this.querySelector('input').value;
-        })
+        // $("form").on("submit", function(event){
+        //     event.preventDefault();
+        //     window.location.hash = '#/search/'+this.querySelector('input').value;
+        // })
 
         var api_key = "l4h8f589rh3xsn0updz5tq6n";
 

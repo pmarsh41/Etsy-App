@@ -1,73 +1,58 @@
-;(function() {
+;
+(function() {
 
     function EtsyClient(key) {
-        this.token = token;
-        this.vendors = [];
-        this.inventoryData = [];
-
-        var self = this;
-        var EtsyRouter = Backbone.Router.extend({
-
-            routes: {
-                ":username": "drawUserInfo"
-            },
-            drawInfo: function(username) {
-                self.drawUser(userId)
-            },
-            initialize: function() {
-                Backbone.history.start();
-            }
-
-        })
-
-        var router = new EtsyRouter();
-
-        this.draw();
+        this.token = key;
+        console.log('client on')
+        this.draw()
     }
 
-    EtsyClient.prototype = {
-        URLs: {
-            listings: "https://openapi.etsy.com/v2/listings/active"
-        },
+    EtsyClient.prototype.URL_listings = function(token) {
+        // returns the URL with my token in it
+        return "https://openapi.etsy.com/v2/listings/active.js?includes=Images&api_key=" + token + "&limit=50&callback=?"
+    }
 
-        access_token: function() {
-            return "?api_key=" + this.key
-        },
-        getData: function() {
-            // Pull inventory data from Etsy
-            return $.getJson("https://openapi.etsy.com/v2/listings/active")
-                .then(function(data) {
-                    return data;
-                })
-        },
-        loadTemplate: function() {
-            $.when(
-                this.getData(),
-                this.loadTemplate("inventoryTemplate")
-            ).then(function(inventory, html) {
+//-----------------------------------
+// Methods for Loading Data
+//------------------------------------
 
-            })
+    EtsyClient.prototype.getData = function() {
+        var etsyUrl = this.URL_listings(this.token);
+        return $.getJSON(etsyUrl).then(function(data) {
+            console.log(data)
+            return data
+        })
+    }
 
-            //console.log(inventory);
-            var inventoryPage = document.querySelector(".wrapper");
 
-        },
+    EtsyClient.prototype.loadTemplate = function(filename){
+        return $.get('./templates/'+ filename + '.html').then(function(data){
+            return data
+        }  )
+    }
 
-        loadView: function(name) {
-            var page = document.querySelector("page");
-            $.get("./templates/" + name + ".html").then(function(html) {
-                page.innerHTML = html;;
-            })
+    // -------------------------------------
+    // Initial Draw
+    // ------------------------------------
 
-        },
-        drawUserInfo: function(username) {
-            self.drawUser(username)
-        },
+    EtsyClient.prototype.draw = function() {
+        console.log('draw() invoked')
+            //1-WHEN ASYNC REQUESTS RESOVLE
+        $.when(
+            this.getData(), //passes data to 1st paramater in .then()
+            this.loadTemplate("menu")  //passes data to 2nd parameter in .then()
+        ).then(function(data1, whatever2) {
+            console.log('hi')
+            console.log(data1)
+            console.log(whatever2)
+        })
 
-        initialize: function() {
-            Backbone.history.start();
-        }
-    };
+
+    }
+
+
+
+
 
     window.EtsyClient = EtsyClient;
 })();

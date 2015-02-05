@@ -1,0 +1,39 @@
+<ul>
+    <% _.forEach(members, function(m) { %>
+        <li>
+            <a href="#<%= listing_id%>">
+                <%= listing_id %>
+            </a>
+        </li>
+
+        <li>
+            <a href="#<%= user_id%>">
+                <%= user_id %>
+        </li>
+            </a>
+        <li>
+            <a href="#<%= category_id%>">
+                <%= category_id %>
+        </li>
+            </a>
+
+        <li>
+            <a href="#<% title %>">
+                <%= title %>
+        </li>
+            </a>
+
+        <li>
+            <a href="#<%= description%>">
+                <%= description %>
+        </li>
+            </a>
+
+        <li>
+            <a href="#<% price%>">
+                <%= price %>
+        </li>
+            </a>
+
+    <% }); %>
+</ul>
