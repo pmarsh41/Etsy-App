@@ -2,10 +2,54 @@
 (function() {
 
     function EtsyClient(key) {
+        var self = this
+
         this.token = key;
         console.log('client on')
-        this.draw()
+
+        // $.get
+        // $('.listing')
+        // _.template
+        // Backbone
+
+        // our routing
+
+        // var myRouter = Backbone.Router.extend({
+            //     routes: {
+            //         "*default" : "goHome"
+            //     },
+
+            //     goHome: function(){
+            //         console.log('routing is working')
+            //         // initial drawing of our app
+            //         self.draw()
+            //     },
+
+            //     initialize: function(){
+            //         Backbone.history.start()
+            //     }
+            //    })
+
+            // var letsRoute = new myRouter()
+            var
     }
+    var myRouter = Backbone.Router.extend({
+        "*default" : "goHome"
+    },
+
+        goHome = function(){
+            console.log('router is working')
+            self.draw()
+        },
+
+        initialize:function(){
+            Backbone.history.start()
+        }
+    })
+
+    var letsRoute = myRouter()
+
+
 
 
     EtsyClient.prototype = {
@@ -32,7 +76,8 @@
             return $.get('./templates/' + filename + '.html').then(function(data) {
                 return data
             })
-        }
+        },
+
     }
 
     //--------------------------------------
@@ -43,8 +88,7 @@
     // Initial Draw
     // ------------------------------------
 
-    EtsyClient.prototype.draw = function() {
-        console.log('draw() invoked')
+    EtsyClient.prototype.draw = function() {-
             //1-WHEN ASYNC REQUESTS RESOVLE
         $.when(
             this.getData(), //passes data to 1st paramater in .then()
